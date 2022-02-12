@@ -14,9 +14,21 @@
     "api",
     "node"
   ],
+  "lint-staged": {
+    "*.js": [
+      "standard"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "author": "Eduardo Silva",
   "license": "ISC",
   "devDependencies": {
+    "husky": "^4.0.0-beta.5",
+    "lint-staged": "^12.3.3",
     "standard": "^16.0.4"
   }
 }
