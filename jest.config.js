@@ -1,4 +1,4 @@
 module.exports = {
   coverageDirectory: 'coverage',
-  testEnviroment: 'node'
-}
+  testEnvioroment: 'node'
+};
