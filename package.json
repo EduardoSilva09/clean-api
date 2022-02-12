@@ -15,5 +15,8 @@
     "node"
   ],
   "author": "Eduardo Silva",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^16.0.4"
+  }
 }
