@@ -14,6 +14,9 @@
     "api",
     "node"
   ],
+  "standard":{
+    "env": "jest"
+  },
   "author": "Eduardo Silva",
   "license": "ISC",
   "devDependencies": {
