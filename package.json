@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll --silent --colors --noStackTrace",
-    "test:staged": "jest --passWithNoTests --findRelatedTests --silent  --noStackTrace"
+    "test:staged": "jest --passWithNoTests --findRelatedTests --silent  --noStackTrace",
+    "test:ci": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -15,7 +16,7 @@
     "api",
     "node"
   ],
-  "standard":{
+  "standard": {
     "env": "jest"
   },
   "author": "Eduardo Silva",
