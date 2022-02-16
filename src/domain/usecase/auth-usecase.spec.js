@@ -11,9 +11,9 @@ class AuthUseCase {
 }
 
 describe('Auth UseCase', () => {
-  test('Should throw if no password is provided', async () => {
+  test('Should throw if no email is provided', async () => {
     const sut = new AuthUseCase()
-    const promisse = sut.auth('any_email@mail.com')
+    const promisse = sut.auth()
     expect(promisse).rejects.toThrow(new MissingParamError('email'))
   })
 
