@@ -1,4 +1,4 @@
-const { MissingParamError, InvalidParamError } = require('../../Utils/errors')
+const { MissingParamError } = require('../../Utils/errors')
 const AuthUseCase = require('./auth-usecase')
 
 const makeEncripter = () => {
@@ -72,24 +72,6 @@ describe('Auth UseCase', () => {
     expect(loadUseByEmailRepositorySpy.email).toBe('any_email@mail.com')
   })
 
-  test('Should throw if no LoadUseByEmailRepository is provided', async () => {
-    const sut = new AuthUseCase({})
-    const promisse = sut.auth('any_email@mail.com', 'any_password')
-    expect(promisse).rejects.toThrow(new MissingParamError('loadUseByEmailRepository'))
-  })
-
-  test('Should throw if LoadUseByEmailRepository has no method', async () => {
-    const sut = new AuthUseCase({ loadUseByEmailRepository: {} })
-    const promisse = sut.auth('any_email@mail.com', 'any_password')
-    expect(promisse).rejects.toThrow(new InvalidParamError('loadUseByEmailRepository'))
-  })
-
-  test('Should throw if no dependency is provided', async () => {
-    const sut = new AuthUseCase({ })
-    const promisse = sut.auth('any_email@mail.com', 'any_password')
-    expect(promisse).rejects.toThrow(new InvalidParamError('loadUseByEmailRepository'))
-  })
-
   test('Should return null if LoadUseByEmailRepository an invalid email is provided', async () => {
     const { sut, loadUseByEmailRepositorySpy } = makeSut()
     loadUseByEmailRepositorySpy.user = null
@@ -122,5 +104,36 @@ describe('Auth UseCase', () => {
     const accessToken = await sut.auth('valid_email@mail.com', 'valid_password')
     expect(accessToken).toBe(tokenGeneratorSpy.accessToken)
     expect(accessToken).toBeTruthy()
+  })
+
+  test('Should throw if invalid dependency is provided', async () => {
+    const invalid = {}
+    const loadUseByEmailRepository = makeLoadUseByEmailRepository()
+    const encripter = makeEncripter()
+    const suts = [].concat(
+      new AuthUseCase(),
+      new AuthUseCase({}),
+      new AuthUseCase(),
+      new AuthUseCase({
+        loadUseByEmailRepository: invalid
+      }),
+      new AuthUseCase({
+        loadUseByEmailRepository
+      }),
+      new AuthUseCase({
+        loadUseByEmailRepository,
+        encripter
+      }),
+      new AuthUseCase({
+        loadUseByEmailRepository,
+        encripter,
+        tokenGenerator: invalid
+      })
+
+    )
+    for (const sut of suts) {
+      const promisse = sut.auth('any_email@mail.com', 'any_password')
+      expect(promisse).rejects.toThrow()
+    }
   })
 })
