@@ -14,6 +14,15 @@ const makeEncripter = () => {
   return encripterSpy
 }
 
+const makeEncripterWithError = () => {
+  class EncripterSpy {
+    async compare () {
+      throw new Error()
+    }
+  }
+  return new EncripterSpy()
+}
+
 const makeTokenGenerator = () => {
   class TokenGeneratorSpy {
     async generate (userId) {
@@ -24,6 +33,15 @@ const makeTokenGenerator = () => {
   const tokenGeneratorSpy = new TokenGeneratorSpy()
   tokenGeneratorSpy.accessToken = 'any_token'
   return tokenGeneratorSpy
+}
+
+const makeTokenGeneratorWithError = () => {
+  class TokenGeneratorSpy {
+    async generate (userId) {
+      throw new Error()
+    }
+  }
+  return new TokenGeneratorSpy()
 }
 
 const makeLoadUseByEmailRepository = () => {
@@ -39,6 +57,15 @@ const makeLoadUseByEmailRepository = () => {
     password: 'hashed_password'
   }
   return loadUseByEmailRepositorySpy
+}
+
+const makeLoadUseByEmailRepositoryWithError = () => {
+  class LoadUseByEmailRepositorySpy {
+    async load () {
+      throw new Error()
+    }
+  }
+  return new LoadUseByEmailRepositorySpy()
 }
 
 const makeSut = () => {
@@ -130,6 +157,29 @@ describe('Auth UseCase', () => {
         tokenGenerator: invalid
       })
 
+    )
+    for (const sut of suts) {
+      const promisse = sut.auth('any_email@mail.com', 'any_password')
+      expect(promisse).rejects.toThrow()
+    }
+  })
+
+  test('Should throw if dependency throws', async () => {
+    const loadUseByEmailRepository = makeLoadUseByEmailRepository()
+    const encripter = makeEncripter()
+    const suts = [].concat(
+      new AuthUseCase({
+        loadUseByEmailRepository: makeLoadUseByEmailRepositoryWithError()
+      }),
+      new AuthUseCase({
+        loadUseByEmailRepository,
+        encripter: makeEncripterWithError()
+      }),
+      new AuthUseCase({
+        loadUseByEmailRepository,
+        encripter,
+        tokenGenerator: makeTokenGeneratorWithError()
+      })
     )
     for (const sut of suts) {
       const promisse = sut.auth('any_email@mail.com', 'any_password')
