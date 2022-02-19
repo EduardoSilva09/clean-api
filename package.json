@@ -30,7 +30,8 @@
     "standard": "^16.0.4"
   },
   "dependencies": {
-    "bcrypt":"^3.0.7",
+    "bcrypt": "^3.0.7",
+    "jsonwebtoken": "^8.5.1",
     "validator": "^13.7.0"
   }
 }
