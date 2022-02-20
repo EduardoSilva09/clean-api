@@ -6,7 +6,7 @@ module.exports = class LoadUserByEmailRepository {
 
   async load (email) {
     if (!email) {
-      throw new MissingParamError()
+      throw new MissingParamError('email')
     }
     const user = await this.userModel.findOne({
       email
