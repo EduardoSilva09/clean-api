@@ -12,10 +12,12 @@ module.exports = {
 
   async disconnect () {
     await this.client.close()
+    this.client = null
+    this.db = null
   },
 
   async getDb () {
-    // if (!this.client.isConnected()) {
+    // if (!this.client) {
     //   await this.connect(this.url, this.dbName)
     // }
     return this.db
