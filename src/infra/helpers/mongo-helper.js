@@ -17,9 +17,9 @@ module.exports = {
   },
 
   async getDb () {
-    // if (!this.client) {
-    //   await this.connect(this.url, this.dbName)
-    // }
+    if (!this.client) {
+      await this.connect(this.url, this.dbName)
+    }
     return this.db
   }
 }
