@@ -1,4 +1,2 @@
-const express = require('express')
-const app = express
-
-app.listen(5858, () => console.log('server runig'))
+const app = require('./config/app')
+app.listen(5858, () => console.log('server runnig'))
